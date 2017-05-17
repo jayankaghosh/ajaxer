@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Ajaxer - Convert all (or some) traditional forms in your page to ajax</title>
+	<script type="text/javascript" src="Ajaxer.js"></script>
+	<style type="text/css">
+		#loader{
+			position: absolute;
+			top: 0;
+			left: 0;
+			margin-left: 40%;
+			margin-top: 5%;
+			display: none;
+		}
+		#form1-progress-container{
+			display: none;
+		}
+		#myProgress {
+		    width: 25%;
+		    background-color: #f0f0f0;
+		}
+		#form1-progress {
+		    width: 1%;
+		    height: 30px;
+		    background-color: green;
+		}
+	</style>
+</head>
+<body>
+	<fieldset>
+		<legend>FORM 1</legend>
+		<form method="POST" action="form1.php" id="form1">
+			Enter Your name: <input type="text" name="name" /><hr />
+			Enter your age: <input type="text" name="age" /><hr />
+			Enter your DOB: <input type="date" name="dob" /><hr />
+			Gender: <select><option value="m">Male</option><option value="f">Female</option></select><hr />
+			Upload Your File <input type="file" name="dp" multiple /><hr />
+			<input type="submit" value="Save Data" />
+			<div id="form1-progress-container">
+				<div id="myProgress">
+				  <div id="form1-progress"></div>
+				</div>
+			</div>
+		</form>		
+	</fieldset>
+	<br />
+	<fieldset>
+		<legend>FORM 2</legend>
+		<form method="GET" action="form2.php" id="form2">
+			<input type="submit" value="GET MY DATA">
+		</form>
+	</fieldset>
+	<div id="ajax-container"></div>
+	<div id="loader">
+		<img src="http://www.arabianbusiness.com/skins/ab.main/gfx/loading_spinner.gif" />
+	</div>
+	<script type="text/javascript">
+
+		Ajaxer.onPre = function(){
+			if(this.id == "form1"){
+				var inputs = document.getElementsByTagName("INPUT");
+				for (var i = 0; i < inputs.length; i++) {
+				    if (inputs[i].type === 'submit') {
+				        inputs[i].disabled = true;
+				    }
+				}
+				document.getElementById(this.id+"-progress-container").style.display = 'block';
+			}
+			document.getElementById("loader").style.display = "block";
+		}
+		Ajaxer.onPost = function(){
+			var inputs = document.getElementsByTagName("INPUT");
+			for (var i = 0; i < inputs.length; i++) {
+			    if (inputs[i].type === 'submit') {
+			        inputs[i].disabled = false;
+			    }
+			}
+			document.getElementById("loader").style.display = "none";
+		}
+		Ajaxer.onProgress = function(percent){
+			document.getElementById(this.id+"-progress").style.width = percent+"%";
+		}
+
+		Ajaxer.convertAll(function(status, data){
+			if(!status) return alert(data.statusText);
+			document.getElementById("ajax-container").innerHTML = data.responseText;
+		});
+	</script>
+</body>
+</html>
