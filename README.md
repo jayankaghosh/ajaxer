@@ -30,7 +30,7 @@ Let's say you have a html form
             }
        });
        
-and that's it. Now when the `loginform` is submitted, it will be submitted through ajax and the data returned by the server will be sent to the callback function!
+and that's it. Now when the `loginform` is submitted, it will be submitted through ajax and the data returned by the server will be sent to the callback function! Ajaxer can be used to upload files as well.
 
 You can also tell Ajaxer to convert all of the forms in your page by using the `convertAll` method
 
@@ -57,5 +57,6 @@ You can also tell Ajaxer to convert all of the forms in your page by using the `
    - `Ajaxer.onPost` This function is called after the ajax call is complete. You might write the logic to hide the loader/spinner here.
    - `Ajaxer.onProgress` This function is called if any file is being uploaded. Ajaxer will pass one parameter, i.e, the percentage uploaded to this function.
    - Using `this` inside any of the above mentioned functions will always point to the form currently submitted
+   
     
  For further implementation details, refer the index.html file, which has a working demo (requires PHP)
