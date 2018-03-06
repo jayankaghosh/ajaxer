@@ -26,14 +26,16 @@ var Ajaxer = {
 		params.callback = callback!=null?function(status, http){callback.bind(form)(status, http);self.onPost.bind(form)();}:function(http){console.log(http)};
 		form.addEventListener("submit", function(e){
 			params.data = self._formConverter(form);
-			self.onPre.bind(form)();
+			var proceed = self.onPre.bind(form)();
 			e.preventDefault();
-			self._send(params, form);
+			if (proceed) {
+				self._send(params, form);
+			}
 			return false;
 		});
 	},
 	onPre: function(){
-
+		return true;
 	},
 	onPost: function(){
 
